@@ -1,0 +1,6 @@
+pandas
+pyarrow
+matplotlib
+numpy
+dask
+pypandoc_binary

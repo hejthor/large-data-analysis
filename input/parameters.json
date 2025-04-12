@@ -1,3 +1,33 @@
 {
-    "megabytes": 10000
+    "blocksize": 1000000,
+    "output": "output",
+    "data": [
+        {
+            "path": "output/data.csv",
+            "delimiter": ";",
+            "encoding": "utf-8"
+        }
+    ],
+    "tables": [
+        {
+            "name": "salary",
+            "filters": [
+                { "column": "salary", "type": "above", "value": 100 }
+            ],
+            "columns": [ "year", "salary" ],
+            "additions": [
+                { "name": "count", "type": "count", "column": "salary" }
+            ]
+        }
+    ],
+    "documents": [
+        {
+            "source": "input/document.md",
+            "template": "input/template.odt",
+            "language": "da-DK",
+            "title": "Title",
+            "author": "Firstname Lastname",
+            "toc-title": "Contents"
+        }
+    ]
 }

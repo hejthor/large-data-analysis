@@ -10,8 +10,8 @@ pip install --upgrade pip
 echo "[TERMINAL] Installing Python dependencies"
 pip install -r resources/requirements.txt
 
-echo "[TERMINAL] Running app.py"
-python resources/app.py --parameters input/parameters.json
+echo "[TERMINAL] Running generate.py"
+python resources/generate.py --target output/data.csv
 
 echo "[TERMINAL] Deactivating virtual environment"
 deactivate
