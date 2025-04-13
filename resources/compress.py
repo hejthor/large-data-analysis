@@ -10,12 +10,18 @@ def compress(output, data, blocksize):
             delimiter=source["delimiter"],
             on_bad_lines='skip',
             low_memory=False,
-            dtype=str,
             blocksize=blocksize
         )
+
+        for col in dataframe.columns:
+            if dataframe[col].nunique().compute() < 1000:
+                dataframe[col] = dataframe[col].astype("category")
 
         print("[PYTHON][compress.py] Saving dataframe to Parquet")
         dataframe.to_parquet(
             output + "/parquets/" + os.path.splitext(os.path.basename("output/data.csv"))[0],
-            compression='snappy'
+            engine='pyarrow',
+            compression='brotli',
+            use_dictionary=True,
+            write_metadata_file=False
         )

@@ -5,9 +5,8 @@ import pandas as pd
 import numpy as np
 import os
 import random
-import string
 
-def generate(file_path, target_size_gb=15):
+def generate(file_path, target_size_gb=1):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
     # Estimate number of rows — assume ~100 bytes per row
@@ -18,16 +17,16 @@ def generate(file_path, target_size_gb=15):
     # Number of partitions — adjust depending on memory
     npartitions = 100
 
-    def random_strings(n, length=10):
-        return [''.join(random.choices(string.ascii_letters, k=length)) for _ in range(n)]
+    def random_year():
+        return random.choice(range(1980, 2025))  # Random year between 1980 and 2024
+
+    def random_salary():
+        return random.randint(30000, 150000)  # Random salary between 30,000 and 150,000
 
     def create_partition(n):
         return pd.DataFrame({
-            'id': np.arange(n),
-            'name': random_strings(n),
-            'age': np.random.randint(18, 99, size=n),
-            'email': [f'user{i}@example.com' for i in range(n)],
-            'balance': np.random.uniform(1000, 100000, size=n).round(2)
+            'year': [random_year() for _ in range(n)],
+            'salary': [random_salary() for _ in range(n)],
         })
 
     # Rows per partition

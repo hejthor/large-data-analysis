@@ -16,8 +16,15 @@
             ],
             "columns": [ "year", "salary" ],
             "additions": [
-                { "name": "count", "type": "count", "column": "salary" }
-            ]
+                {
+                    "name": "salary per year", "type": "sum",
+                    "group": [ "year" ], "column": "salary"
+                }
+            ],
+            "rename columns": [
+                { "column": "year", "new name": "date" }
+            ],
+            "drop columns": [ "date" ]
         }
     ],
     "documents": [
