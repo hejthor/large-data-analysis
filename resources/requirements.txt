@@ -3,4 +3,4 @@ pyarrow
 matplotlib
 numpy
 dask
-pypandoc_binary
+pypandoc
