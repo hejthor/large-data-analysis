@@ -1,5 +1,4 @@
 import dask.dataframe as dd
-import pandas as pd
 import os
 
 def apply_filters(dataframe, filters):
@@ -27,20 +26,20 @@ def rename_columns(dataframe, renames):
 def drop_columns(dataframe, drop_cols):
     return dataframe.drop(columns=drop_cols)
 
-def save_table(df, output_path):
+def save_table(df, output_path, name):
     # Ensure output directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     # Save as CSV
-    csv_path = output_path + ".csv"
+    csv_path = output_path + name + ".csv"
     df.to_csv(csv_path, index=False)
 
     # Save as Excel
-    excel_path = output_path + ".xlsx"
+    excel_path = output_path + name + ".xlsx"
     df.to_excel(excel_path, index=False)
 
     # Save as Markdown
-    md_path = output_path + ".md"
+    md_path = output_path + name + ".md"
     with open(md_path, 'w') as md_file:
         # Write header
         header = '| ' + ' | '.join(df.columns) + ' |\n'
@@ -58,10 +57,16 @@ def extract(output, tables, blocksize):
         dataframe = dd.read_parquet(output + "/parquets/" + folder, blocksize=blocksize)        # read each parquet folder
         for table in tables:                                                                    # loop over tables
             df = dataframe
+            print(f"[PYTHON][extract.py] Applying filters for table: {table['name']}")
             df = apply_filters(df, table["filters"])
             df.compute()
+            print(f"[PYTHON][extract.py] Grouping columns for table: {table['name']}")
             df = group_columns(df, table["columns"])
+            print(f"[PYTHON][extract.py] Adding columns for table: {table['name']}")
             df = apply_additions(df, table["additions"])
+            print(f"[PYTHON][extract.py] Renaming columns for table: {table['name']}")
             df = rename_columns(df, table["rename columns"])
+            print(f"[PYTHON][extract.py] Dropping columns for table: {table['name']}")
             df = drop_columns(df, table["drop columns"])
-            save_table(df, output + "/tables/")
+            print(f"[PYTHON][extract.py] Saving table: {table['name']}")
+            save_table(df, output + "/tables/", table["name"])
