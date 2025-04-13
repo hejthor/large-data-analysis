@@ -23,13 +23,13 @@ def document(output, documents):
 
         # Define extra arguments, including metadata with an inline loop
         extra_args = [
+            *[f'--metadata={key}={value}' for key, value in metadata.items()],
+            f"--reference-doc={template_file}",
             "--standalone",
             "--table-of-contents",
             "--lua-filter=resources/filters/include-files.lua",
             "--lua-filter=resources/filters/include-code-files.lua",
-            "--lua-filter=resources/filters/pagebreak.lua",
-            f"--template={template_file}",
-            *[f'--metadata={key}={value}' for key, value in metadata.items()]
+            "--lua-filter=resources/filters/pagebreak.lua"
         ]
         
         try:
