@@ -62,21 +62,33 @@ def save_table(dataframe, output_path, name):
             md_file.write(row_str)
 
 def extract(output, tables, blocksize):
-    for folder in os.listdir(output + "/parquets/"):                                            # loop over folder in output + "/parquets")
-        dataframe = dd.read_parquet(output + "/parquets/" + folder, blocksize=blocksize)        # read each parquet folder
-        for table in tables:                                                                    # loop over tables
-            df = dataframe
-            print(f"[PYTHON][extract.py] Applying filters for table: {table['name']}")
-            df = apply_filters(df, table["filters"])
-            print(f"[PYTHON][extract.py] Grouping columns for table: {table['name']}")
-            df = group_columns(df, table["columns"])
-            print(f"[PYTHON][extract.py] Adding columns for table: {table['name']}")
-            df = apply_additions(df, table["additions"])
-            print(f"[PYTHON][extract.py] Renaming columns for table: {table['name']}")
-            df = rename_columns(df, table["rename columns"])
-            print(f"[PYTHON][extract.py] Dropping columns for table: {table['name']}")
-            df = drop_columns(df, table["drop columns"])
-            print(f"[PYTHON][extract.py] Sorting columns for table: {table['name']}")
-            df = sort_columns(df, table["sorting"])
-            print(f"[PYTHON][extract.py] Saving table: {table['name']}")
-            save_table(df, output + "/tables/", table["name"])
+    for folder in os.listdir(output + "/parquets/"):
+        dataframe = dd.read_parquet(os.path.join(output, "parquets", folder), blocksize=blocksize)
+        for table in tables:
+            
+            if "filters" in table:
+                print(f"[PYTHON][extract.py] Applying filters for table: {table_name}")
+                dataframe = apply_filters(dataframe, table["filters"])
+
+            if "columns" in table:
+                print(f"[PYTHON][extract.py] Grouping columns for table: {table_name}")
+                dataframe = group_columns(dataframe, table["columns"])
+
+            if "additions" in table:
+                print(f"[PYTHON][extract.py] Adding columns for table: {table_name}")
+                dataframe = apply_additions(dataframe, table["additions"])
+
+            if "rename columns" in table:
+                print(f"[PYTHON][extract.py] Renaming columns for table: {table_name}")
+                dataframe = rename_columns(dataframe, table["rename columns"])
+
+            if "drop columns" in table:
+                print(f"[PYTHON][extract.py] Dropping columns for table: {table_name}")
+                dataframe = drop_columns(dataframe, table["drop columns"])
+
+            if "sorting" in table and table["sorting"]:
+                print(f"[PYTHON][extract.py] Sorting columns for table: {table_name}")
+                dataframe = sort_columns(dataframe, table["sorting"])
+
+            print(f"[PYTHON][extract.py] Saving table: {table_name}")
+            save_table(dataframe, os.path.join(output, "tables/"), table_name)
