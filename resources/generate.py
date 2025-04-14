@@ -7,12 +7,12 @@ import os
 import random
 from datetime import datetime, timedelta
 
-def generate(file_path, target_size_gb=20):
+def generate(file_path, target_size_gb=40):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
     # Estimate number of rows — assume ~100 bytes per row
     est_bytes_per_row = 100
-    target_size_bytes = target_size_gb * 2 * 1024**3
+    target_size_bytes = target_size_gb * 6 * 1024**3
     n_rows = target_size_bytes // est_bytes_per_row
 
     # Number of partitions — adjust depending on memory
