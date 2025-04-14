@@ -3,6 +3,7 @@ import os
 
 from pipeline import (
     apply_filters,
+    extract_columns,
     group_columns,
     apply_additions,
     rename_columns,
@@ -15,9 +16,12 @@ def extract(output, tables, blocksize):
     for folder in os.listdir(output + "/parquets/"):
         dataframe = dd.read_parquet(os.path.join(output, "parquets", folder), blocksize=blocksize)
         for table in tables:
-            if "filters" in table:
+            if "pre filters" in table:
                 print(f"[PYTHON][extract.py] Applying filters for table: {table["name"]}")
-                dataframe = apply_filters(dataframe, table["filters"])
+                dataframe = apply_filters(dataframe, table["pre filters"])
+            if "extract" in table:
+                print(f"[PYTHON][extract.py] Extract columns for table: {table["name"]}")
+                dataframe = extract_columns(dataframe, table["extract"])
             if "columns" in table:
                 print(f"[PYTHON][extract.py] Grouping columns for table: {table["name"]}")
                 dataframe = group_columns(dataframe, table["columns"])
@@ -33,5 +37,8 @@ def extract(output, tables, blocksize):
             if "sorting" in table and table["sorting"]:
                 print(f"[PYTHON][extract.py] Sorting columns for table: {table["name"]}")
                 dataframe = sort_columns(dataframe, table["sorting"])
+            if "post filters" in table:
+                print(f"[PYTHON][extract.py] Applying filters for table: {table["name"]}")
+                dataframe = apply_filters(dataframe, table["post filters"])
             print(f"[PYTHON][extract.py] Saving table: {table["name"]}")
             save_table(dataframe, os.path.join(output, "tables/"), table["name"])

@@ -2,34 +2,34 @@
     "blocksize": 1000000,
     "output": "output",
     "data": [
-        {
-            "path": "output/data.csv",
-            "delimiter": ";",
-            "encoding": "utf-8"
-        }
+        { "path": "output/data.csv", "delimiter": ";", "encoding": "utf-8" }
     ],
     "tables": [
         {
-            "name": "salary",
-            "filters": [
-                { "column": "salary", "type": "below", "value": 30001 }
+            "name": "users per month",
+            "pre filters": [
+                { "column": "username", "type": "contains", "value": "alice" }
             ],
-            "columns": [ "year", "salary" ],
+            "extract": [
+                { "column": "date", "name": "year", "type": "split", "on": "-", "select": 0 },
+                { "column": "date", "name": "month", "type": "split", "on": "-", "select": 1 },
+                { "column": "date", "name": "day", "type": "split", "on": "-", "select": 2 }
+            ],
+            "columns": [ "year", "month", "username" ],
             "additions": [
-                {
-                    "name": "salaries per year", "type": "count",
-                    "group": [ "year", "salary" ]
-                }
+                { "group": [ "year", "month" ], "name": "user count", "type": "count" }
             ],
             "rename columns": [
-                { "column": "year", "new name": "yyyy" }
+                { "column": "year", "new name": "year (yyyy)" },
+                { "column": "month", "new name": "month (mm)" }
             ],
-            "drop columns": [ "salary" ],
+            "drop columns": [ ],
             "sorting": [
-                {
-                    "column": "yyyy",
-                    "direction": "descending"
-                }
+                { "column": "year (yyyy)", "direction": "descending" },
+                { "column": "month (mm)", "direction": "descending" }
+            ],
+            "post filters": [
+                { "column": "year (yyyy)", "type": "above", "value": 2020 }
             ]
         }
     ],

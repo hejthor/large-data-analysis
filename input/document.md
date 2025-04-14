@@ -9,5 +9,5 @@ Text
 Text
 
 ```{.include}
-output/tables/salary.md
+output/tables/users per month.md
 ```
