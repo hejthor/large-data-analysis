@@ -8,7 +8,7 @@ def save_table(dataframe, output_path, name):
 
         # Save as CSV
         csv_path = output_path + name + ".csv"
-        dataframe.to_csv(csv_path, single_file=True, index=False)
+        dataframe.to_csv(csv_path, single_file=True, index=False, sep=';')
 
         # Convert to Pandas
         dataframe = dataframe.compute()
