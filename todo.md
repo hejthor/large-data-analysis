@@ -1,2 +1,3 @@
+- table objects should be descriptions of the final table columns, not process descriptions
 - documents should go to `output/documents/` not `/output`
 - a count of repeated column groups can be achieved with `dataframe.groupby(columns).size().reset_index(name="Column Name")` where `Column Name` is the name of the added column with counts
