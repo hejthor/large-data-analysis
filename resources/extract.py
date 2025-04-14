@@ -12,9 +12,9 @@ from pipeline import (
     save_table
 )
 
-def extract(output, tables, blocksize):
+def extract(output, tables, memory):
     for folder in os.listdir(output + "/parquets/"):
-        dataframe = dd.read_parquet(os.path.join(output, "parquets", folder), blocksize=blocksize)
+        dataframe = dd.read_parquet(os.path.join(output, "parquets", folder), blocksize=memory)
         for table in tables:
             if "pre filters" in table:
                 print(f"[PYTHON][extract.py] Applying filters for table: {table["name"]}")
@@ -34,7 +34,7 @@ def extract(output, tables, blocksize):
             if "drop columns" in table:
                 print(f"[PYTHON][extract.py] Dropping columns for table: {table["name"]}")
                 dataframe = drop_columns(dataframe, table["drop columns"])
-            if "sorting" in table and table["sorting"]:
+            if "sorting" in table:
                 print(f"[PYTHON][extract.py] Sorting columns for table: {table["name"]}")
                 dataframe = sort_columns(dataframe, table["sorting"])
             if "post filters" in table:

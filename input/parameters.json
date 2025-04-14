@@ -1,5 +1,5 @@
 {
-    "blocksize": 1000000,
+    "memory": "3GB",
     "output": "output",
     "data": [
         { "path": "output/data.csv", "delimiter": ";", "encoding": "utf-8" }

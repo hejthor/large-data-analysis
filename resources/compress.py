@@ -2,7 +2,7 @@ import dask.dataframe as dd
 import dask
 import os
 
-def compress(output, data, blocksize):
+def compress(output, data, memory):
     with dask.config.set(temporary_directory=output):
         for source in data:
             print(f"[PYTHON][compress.py] Reading {source['path']} into dataframe")
@@ -12,7 +12,7 @@ def compress(output, data, blocksize):
                 delimiter=source["delimiter"],
                 on_bad_lines='skip',
                 low_memory=False,
-                blocksize=blocksize
+                blocksize=memory
             )
 
             for col in dataframe.columns:
