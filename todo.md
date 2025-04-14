@@ -1,3 +1,5 @@
+- `compress.py` should output `output/columns.txt`, making it possible to see the column names to be used in `tables:` in `parameters.json`
+- `generate.py` should use `memory` property from `parameters.json` to determine `partitions`
 - replace `chunk size` parameter with `memory`, denoting the amount of memory being dedicated to Dask
 - table objects should be descriptions of the final table columns, not process descriptions
 - documents should go to `output/documents/` not `/output`
