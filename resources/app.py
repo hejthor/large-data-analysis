@@ -6,6 +6,12 @@ from compress import compress
 from extract import extract
 from document import document
 
+def parse_memory_string(memory_str):
+    units = {'GB': 1024**3}
+    number = ''.join(filter(str.isdigit, memory_str))
+    unit = ''.join(filter(str.isalpha, memory_str.upper()))
+    return int(number) * units.get(unit, 1)
+
 def app(parameters_path):
     parameters = json.load(open(parameters_path, 'r'))
 
@@ -13,7 +19,7 @@ def app(parameters_path):
     data = parameters.get("data")
     tables = parameters.get("tables")
     documents = parameters.get("documents")
-    memory = parameters.get("memory")
+    memory = parse_memory_string(parameters.get("memory"))
 
     if not output:
         print("[ERROR] 'output' must be defined in the parameters.")
