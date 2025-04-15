@@ -9,7 +9,8 @@ from pipeline import (
     rename_columns,
     drop_columns,
     sort_columns,
-    save_table
+    save_table,
+    replace_values
 )
 
 def extract(output, tables, memory):
@@ -40,5 +41,8 @@ def extract(output, tables, memory):
             if "post filters" in table:
                 print(f"[PYTHON][extract.py] Applying filters for table: {table["name"]}")
                 dataframe = apply_filters(dataframe, table["post filters"])
+            if "replacements" in table:
+                print(f"[PYTHON][extract.py] Replacing values for table: {table["name"]}")
+                dataframe = replace_values(dataframe, table["replacements"])
             print(f"[PYTHON][extract.py] Saving table: {table["name"]}")
             save_table(dataframe, os.path.join(output, "tables/"), table["name"])
