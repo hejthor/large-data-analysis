@@ -4,54 +4,6 @@
     "data": [
         { "path": "output/data.csv", "delimiter": ";", "encoding": "utf-8" }
     ],
-    "tables": [
-        {
-            "name": "users per month",
-            "pre filters": [
-                { "column": "username", "type": "contains", "value": "alice" }
-            ],
-            "extract": [
-                { "column": "date", "name": "year", "type": "split", "on": "-", "select": 0 },
-                { "column": "date", "name": "month", "type": "split", "on": "-", "select": 1 },
-                { "column": "date", "name": "day", "type": "split", "on": "-", "select": 2 }
-            ],
-            "columns": [ "year", "month", "username" ],
-            "additions": [
-                { "group": [ "year", "month" ], "name": "user count", "type": "count" }
-            ],
-            "rename columns": [
-                { "column": "year", "new name": "year (yyyy)" },
-                { "column": "month", "new name": "month (mm)" }
-            ],
-            "drop columns": [ ],
-            "sorting": [
-                { "column": "year (yyyy)", "direction": "descending" },
-                { "column": "month (mm)", "direction": "descending" }
-            ],
-            "post filters": [
-                { "column": "year (yyyy)", "type": "above", "value": 2020 }
-            ],
-            "replacements": [
-                {
-                    "column": "month (mm)",
-                    "dictionary": {
-                        "01": "January",
-                        "02": "February",
-                        "03": "March",
-                        "04": "April",
-                        "05": "May",
-                        "06": "June",
-                        "07": "July",
-                        "08": "August",
-                        "09": "September",
-                        "10": "October",
-                        "11": "November",
-                        "12": "December"
-                    }
-                }
-            ]
-        }
-    ],
     "documents": [
         {
             "source": "input/document.md",
@@ -60,6 +12,43 @@
             "title": "Title",
             "author": "Firstname Lastname",
             "toc-title": "Contents"
+        }
+    ],
+    "tables": [
+        {
+            "data": "output/parquets/data",
+            "name": "users per month",
+            "columns": [
+                {
+                    "name": "year (yyyy)",
+                    "column": "date",
+                    "type": "split",
+                    "on": "-",
+                    "select": 0,
+                    "sorting": "descending",
+                    "filters": [ { "type": "above", "value": 2020 } ]
+                },
+                {
+                    "name": "month (mm)",
+                    "column": "date",
+                    "type": "split",
+                    "on": "-",
+                    "select": 1,
+                    "sorting": "descending",
+                    "replacements": {
+                        "01": "January", "02": "February", "03": "March",
+                        "04": "April", "05": "May", "06": "June",
+                        "07": "July", "08": "August", "09": "September",
+                        "10": "October", "11": "November", "12": "December"
+                    }
+                },
+                {
+                    "name": "user count",
+                    "group": [ "year (yyyy)", "month (mm)", "username" ],
+                    "type": "count",
+                    "filters": [ { "type": "contains", "value": "alice" } ]
+                }
+            ]
         }
     ]
 }
