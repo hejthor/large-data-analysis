@@ -15,7 +15,33 @@ def generate(file_path, rows, seed=None):
     rows_per_partition = int(rows // npartitions)
     print(f"Using {npartitions} partitions, {rows_per_partition} rows per partition.")
 
-    usernames = np.array(['alice', 'bob', 'charlie', 'diana', 'eve', 'frank', 'grace', 'heidi'])
+    # Hierarchical structure: companies -> departments -> usernames
+    hierarchy = {
+        'Globex': {
+            'HR': ['alice', 'wendy'],
+            'Engineering': ['bob', 'charlie'],
+            'Sales': ['diana', 'zoe'],
+        },
+        'Initech': {
+            'Research': ['frank', 'victor'],
+            'Support': ['eve', 'trent'],
+        },
+        'Umbrella': {
+            'Security': ['grace', 'ivan'],
+            'BioTech': ['heidi', 'judy'],
+        },
+        'Wayne Enterprises': {
+            'R&D': ['mallory', 'peggy'],
+            'Logistics': ['oscar'],
+        }
+    }
+    # Build a flat list of (company, department, username) triples
+    triple_list = []
+    for company, dept_dict in hierarchy.items():
+        for dept, users in dept_dict.items():
+            for user in users:
+                triple_list.append((company, dept, user))
+    triple_list = np.array(triple_list)
     start_date = np.datetime64('2010-01-01')
     end_date = np.datetime64('2025-01-01')
     delta_days = (end_date - start_date).astype(int)
@@ -24,10 +50,16 @@ def generate(file_path, rows, seed=None):
         rng = np.random.default_rng(partition_seed)
         random_days = rng.integers(0, delta_days, size=n)
         dates = (start_date + random_days).astype('datetime64[D]').astype(str)
-        users = rng.choice(usernames, size=n)
+        sampled_idx = rng.integers(0, len(triple_list), size=n)
+        sampled_triples = triple_list[sampled_idx]
+        companies_col = sampled_triples[:, 0]
+        departments_col = sampled_triples[:, 1]
+        users = sampled_triples[:, 2]
         return pd.DataFrame({
             'date': dates,
             'username': users,
+            'department': departments_col,
+            'company': companies_col,
         })
 
     partition_seeds = None
