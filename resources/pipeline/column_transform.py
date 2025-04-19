@@ -13,9 +13,12 @@ def column_transform(dataframe, columns):
     for col in columns:
         col_name = col["name"]
         col_type = col.get("type")
-        # Extraction (e.g., split)
+        # Extraction (e.g., split, week number)
         if col_type == "split":
             dataframe[col_name] = dataframe[col["column"]].str.split(col["on"]).str[col["select"]]
+        elif col_type == "week number":
+            # Convert to datetime then extract ISO week number
+            dataframe[col_name] = dd.to_datetime(dataframe[col["column"]], errors="coerce").dt.isocalendar().week
         elif col_type == "count":
             groupby_cols = col.get("group")
             aggs[col_name] = (col.get("column"), "count", tuple(col.get("group", [])))

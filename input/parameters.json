@@ -44,8 +44,14 @@
                         "10": "October", "11": "November", "12": "December"
                     }
                 },
-                { "name": "users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)" ], "type": "count" },
-                { "name": "unique users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)" ], "type": "unique count" },
+                {
+                    "name": "week",
+                    "column": "date",
+                    "type": "week number",
+                    "sorting": "descending"
+                },
+                { "name": "users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)", "week" ], "type": "count" },
+                { "name": "unique users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)", "week" ], "type": "unique count" },
                 { "name": "users in department", "column": "username", "group": [ "department" ], "type": "count" },
                 { "name": "unique users in department", "column": "username", "group": [ "department" ], "type": "unique count" },
                 { "name": "users in company", "column": "username", "group": [ "company" ], "type": "count" },
