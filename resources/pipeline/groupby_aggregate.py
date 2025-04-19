@@ -2,6 +2,10 @@ import pandas as pd
 
 def groupby_aggregate(dataframe, groupby_cols, aggs, unique_count_aggs):
     """Apply groupby and aggregation logic, including unique counts."""
+    # Ensure groupby columns are not categorical with unused categories
+    if groupby_cols:
+        for col in groupby_cols:
+            dataframe[col] = dataframe[col].astype(str)
     result_df = None
     if aggs and groupby_cols:
         agg_dict = {k: v for k, v in aggs.items()}
@@ -15,3 +19,4 @@ def groupby_aggregate(dataframe, groupby_cols, aggs, unique_count_aggs):
         else:
             result_df = result_df.merge(nunique_df, on=groupby_cols, how="left")
     return result_df
+

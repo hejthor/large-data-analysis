@@ -20,6 +20,16 @@
             "name": "users per month",
             "columns": [
                 {
+                    "name": "company",
+                    "column": "company",
+                    "sorting": "descending"
+                },
+                {
+                    "name": "department",
+                    "column": "department",
+                    "sorting": "descending"
+                },
+                {
                     "name": "year (yyyy)",
                     "column": "date",
                     "type": "split",
@@ -45,13 +55,13 @@
                 {
                     "name": "user count",
                     "column": "username",
-                    "group": [ "year (yyyy)", "month (mm)" ],
+                    "group": [ "company", "department", "year (yyyy)", "month (mm)" ],
                     "type": "count"
                 },
                 {
                     "name": "unique users",
                     "column": "username",
-                    "group": [ "year (yyyy)", "month (mm)" ],
+                    "group": [ "company", "department", "year (yyyy)", "month (mm)" ],
                     "type": "unique count"
                 }
             ]
