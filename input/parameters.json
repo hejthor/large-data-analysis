@@ -44,9 +44,15 @@
                 },
                 {
                     "name": "user count",
-                    "group": [ "year (yyyy)", "month (mm)", "username" ],
-                    "type": "count",
-                    "filters": [ { "type": "contains", "value": "alice" } ]
+                    "column": "username",
+                    "group": [ "year (yyyy)", "month (mm)" ],
+                    "type": "count"
+                },
+                {
+                    "name": "unique users",
+                    "column": "username",
+                    "group": [ "year (yyyy)", "month (mm)" ],
+                    "type": "unique count"
                 }
             ]
         }
