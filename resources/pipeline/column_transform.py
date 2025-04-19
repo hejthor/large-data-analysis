@@ -18,11 +18,11 @@ def column_transform(dataframe, columns):
             dataframe[col_name] = dataframe[col["column"]].str.split(col["on"]).str[col["select"]]
         elif col_type == "count":
             groupby_cols = col.get("group")
-            aggs[col_name] = (col.get("column"), "count")
+            aggs[col_name] = (col.get("column"), "count", tuple(col.get("group", [])))
             agg_col_to_source[col_name] = col.get("column")
         elif col_type == "unique count":
             groupby_cols = col.get("group")
-            unique_count_aggs[col_name] = col.get("column")
+            unique_count_aggs[col_name] = (col.get("column"), tuple(col.get("group", [])))
         # Add more extraction types as needed
 
         # Per-column filters

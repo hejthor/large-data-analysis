@@ -11,7 +11,7 @@ echo [COMMAND PROMPT] Installing Python dependencies
 pip install -r resources\requirements.txt
 
 echo [COMMAND PROMPT] Running generate.py
-python resources\generate.py --file_path output\data.csv --rows 1000000 --seed 42
+python resources\generate.py --file_path output\data.csv --rows 10000000 --seed 42
 
 echo [COMMAND PROMPT] Deactivating virtual environment
 deactivate

@@ -19,16 +19,8 @@
             "data": "output/parquets/data",
             "name": "users per month",
             "columns": [
-                {
-                    "name": "company",
-                    "column": "company",
-                    "sorting": "descending"
-                },
-                {
-                    "name": "department",
-                    "column": "department",
-                    "sorting": "descending"
-                },
+                { "name": "company", "column": "company", "sorting": "descending" },
+                { "name": "department", "column": "department", "sorting": "descending" },
                 {
                     "name": "year (yyyy)",
                     "column": "date",
@@ -36,7 +28,7 @@
                     "on": "-",
                     "select": 0,
                     "sorting": "descending",
-                    "filters": [ { "type": "above", "value": 2020 } ]
+                    "filters": [ { "type": "above", "value": 2022 } ]
                 },
                 {
                     "name": "month (mm)",
@@ -52,18 +44,12 @@
                         "10": "October", "11": "November", "12": "December"
                     }
                 },
-                {
-                    "name": "user count",
-                    "column": "username",
-                    "group": [ "company", "department", "year (yyyy)", "month (mm)" ],
-                    "type": "count"
-                },
-                {
-                    "name": "unique users",
-                    "column": "username",
-                    "group": [ "company", "department", "year (yyyy)", "month (mm)" ],
-                    "type": "unique count"
-                }
+                { "name": "users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)" ], "type": "count" },
+                { "name": "unique users", "column": "username", "group": [ "company", "department", "year (yyyy)", "month (mm)" ], "type": "unique count" },
+                { "name": "users in department", "column": "username", "group": [ "department" ], "type": "count" },
+                { "name": "unique users in department", "column": "username", "group": [ "department" ], "type": "unique count" },
+                { "name": "users in company", "column": "username", "group": [ "company" ], "type": "count" },
+                { "name": "unique users in company", "column": "username", "group": [ "company" ], "type": "unique count" }
             ]
         }
     ]

@@ -1,7 +1,7 @@
 def sort_select(dataframe, columns, new_columns):
     """Sort the dataframe and select relevant columns."""
-    # Select only the relevant columns
-    dataframe = dataframe[[col for col in new_columns]]
+    # Select only the relevant columns that exist in the dataframe
+    dataframe = dataframe[[col for col in new_columns if col in dataframe.columns]]
 
     # Sorting after all transformations/aggregations
     sort_cols = []
