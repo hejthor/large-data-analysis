@@ -23,6 +23,10 @@ def app(parameters_path):
         with open(tables, 'r') as f:
             tables = json.load(f)
     documents = parameters.get("documents")
+    # If documents is a string (path), load the array from that file
+    if isinstance(documents, str):
+        with open(documents, 'r') as f:
+            documents = json.load(f)
     memory = parse_memory_string(parameters.get("memory"))
 
     if not output:

@@ -4,15 +4,6 @@
     "data": [
         { "path": "output/data.csv", "delimiter": ";", "encoding": "utf-8" }
     ],
-    "documents": [
-        {
-            "source": "input/document.md",
-            "template": "input/template.odt",
-            "language": "da-DK",
-            "title": "Title",
-            "author": "Firstname Lastname",
-            "toc-title": "Contents"
-        }
-    ],
+    "documents": "input/documents.json",
     "tables": "input/tables.json"
 }
