@@ -33,4 +33,5 @@ def extract(output, tables, memory):
                 dataframe[col_name] = dataframe[col_name].replace(col["replacements"])
 
         # 6. Save output
-        save_table(dataframe, os.path.join(output, "tables/"), table["name"])
+        split_col = table.get("split")
+        save_table(dataframe, os.path.join(output, "tables/"), table["name"], split_col)
