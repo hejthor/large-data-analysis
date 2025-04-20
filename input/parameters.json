@@ -1,5 +1,5 @@
 {
-    "memory": "2GB",
+    "memory": 1073741824,
     "output": "output",
     "data": [
         { "path": "output/data.csv", "delimiter": ";", "encoding": "utf-8" }
