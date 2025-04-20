@@ -20,12 +20,17 @@ def column_transform(dataframe, columns):
             # Convert to datetime then extract ISO week number
             dataframe[col_name] = dd.to_datetime(dataframe[col["column"]], errors="coerce").dt.isocalendar().week
         elif col_type == "count":
+            # Always use the 'name' values from the columns array for grouping
             groupby_cols = col.get("group")
-            aggs[col_name] = (col.get("column"), "count", tuple(col.get("group", [])))
+            if groupby_cols:
+                groupby_cols = [g for g in groupby_cols]
+            aggs[col_name] = (col.get("column"), "count", tuple(groupby_cols or []))
             agg_col_to_source[col_name] = col.get("column")
         elif col_type == "unique count":
             groupby_cols = col.get("group")
-            unique_count_aggs[col_name] = (col.get("column"), tuple(col.get("group", [])))
+            if groupby_cols:
+                groupby_cols = [g for g in groupby_cols]
+            unique_count_aggs[col_name] = (col.get("column"), tuple(groupby_cols or []))
         # Add more extraction types as needed
 
         # Per-column filters
@@ -43,4 +48,14 @@ def column_transform(dataframe, columns):
                     dataframe = dataframe[dataframe[col_name].astype(str).str.contains(value, na=False)]
         new_columns[col_name] = True
 
+    # Ensure all groupby columns exist in the dataframe (by their 'name' as per columns array)
+    all_groupby_cols = set()
+    for col in columns:
+        if "group" in col and col["group"]:
+            all_groupby_cols.update(col["group"])
+    # Map 'name' to 'column' for all columns
+    name_to_column = {col["name"]: col["column"] for col in columns if "column" in col}
+    for group_col in all_groupby_cols:
+        if group_col not in dataframe.columns and group_col in name_to_column:
+            dataframe[group_col] = dataframe[name_to_column[group_col]]
     return dataframe, new_columns, groupby_cols, aggs, agg_col_to_source, unique_count_aggs

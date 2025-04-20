@@ -1,0 +1,18 @@
+{
+    "template": "input/template.odt",
+    "language": "da-DK",
+    "title": "Large Data Report",
+    "author": "Firstname Lastname",
+    "cover": "input/cover.jpg",
+    "toc-title": "Contents",
+    "split": "company",
+    "contents": [
+        { "content": "Introduction", "type": "section" },
+        { "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elementum scelerisque neque, id placerat neque cursus sit amet. Cras quis ante ac odio blandit tempor vitae sit amet nunc. Nullam sollicitudin, quam at iaculis viverra, magna libero scelerisque lacus, et tempus quam ex eget nisi. Duis cursus consectetur sapien id lacinia. Suspendisse id lorem at ante ornare laoreet sed vitae metus. Aliquam vel tellus dui. Pellentesque molestie a odio euismod bibendum. Curabitur in elementum dui, eget tincidunt mauris. In hac habitasse platea dictumst.", "type": "paragraph" },
+        { "type": "pagebreak" },
+        { "content": "Analysis", "type": "section" },
+        { "content": "Users", "type": "subsection" },
+        { "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elementum scelerisque neque, id placerat neque cursus sit amet. Cras quis ante ac odio blandit tempor vitae sit amet nunc. Nullam sollicitudin, quam at iaculis viverra, magna libero scelerisque lacus, et tempus quam ex eget nisi. Duis cursus consectetur sapien id lacinia. Suspendisse id lorem at ante ornare laoreet sed vitae metus. Aliquam vel tellus dui. Pellentesque molestie a odio euismod bibendum. Curabitur in elementum dui, eget tincidunt mauris. In hac habitasse platea dictumst.", "type": "paragraph" },
+        { "content": "input/tables/users.json", "type": "table" }
+    ]
+}
