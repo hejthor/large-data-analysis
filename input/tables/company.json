@@ -1,0 +1,34 @@
+{
+    "data": "output/parquets/data",
+    "name": "users per month",
+    "columns": [
+        { "name": "Company", "column": "company", "sorting": "descending" },
+        {
+            "name": "Year (yyyy)",
+            "column": "date",
+            "type": "split",
+            "on": "-",
+            "select": 0,
+            "sorting": "descending",
+            "filters": [ { "type": "above", "value": 2022 } ]
+        },
+        {
+            "name": "Month (mm)",
+            "column": "date",
+            "type": "split",
+            "on": "-",
+            "select": 1,
+            "sorting": "descending",
+            "filters": [ { "type": "above", "value": 10 } ],
+            "replacements": {
+                "01": "January", "02": "February", "03": "March",
+                "04": "April", "05": "May", "06": "June",
+                "07": "July", "08": "August", "09": "September",
+                "10": "October", "11": "November", "12": "December"
+            }
+        },
+        { "name": "Week", "column": "date", "type": "week number", "sorting": "descending" },
+        { "name": "Unique users", "column": "username", "group": [ "Company", "Year (yyyy)", "Month (mm)", "Week" ], "type": "unique count" },
+        { "name": "Unique users in company", "column": "username", "group": [ "Company" ], "type": "unique count" }
+    ]
+}

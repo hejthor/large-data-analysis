@@ -78,6 +78,9 @@ def document(output, document_path, memory):
                     table_md = extract(output, c, memory, as_markdown=True, split_column=split_col, split_value=split_val)
                     if table_md and table_md.strip():
                         md_chunks.append(table_md + "\n")
+                        description = item.get("description")
+                        if description:
+                            md_chunks.append(f"*{description}*\n")
                 else:
                     md_chunks.append(f"{c}\n")
             markdown = '\n'.join(md_chunks)
@@ -113,6 +116,9 @@ def document(output, document_path, memory):
                 table_md = extract(output, c, memory, as_markdown=True)
                 if table_md:
                     md_chunks.append(table_md + "\n")
+                    description = item.get("description")
+                    if description:
+                        md_chunks.append(f"*{description}*\n")
             else:
                 md_chunks.append(f"{c}\n")
         markdown = '\n'.join(md_chunks)
